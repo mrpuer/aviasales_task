@@ -1,17 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import Sort from './Sort';
+import Flights from './Flights';
 
-const SearchResultsWrapper = styled.main`
-  width: 500px;
-  margin-left: 20px;
-`;
+import { SearchResultsWrapper } from './styled';
 
 const SearchResults = () => {
   return (
     <SearchResultsWrapper>
       <Sort />
-      <section>Items List</section>
+      <Flights />
     </SearchResultsWrapper>
   );
 };

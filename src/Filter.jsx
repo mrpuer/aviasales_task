@@ -1,16 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import FilterItem from './FilterItem';
 
-const FilterItemsList = styled.ul`
-  font-size: 13px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 20px;
-  text-transform: none;
-  padding-bottom: 10px;
-  font-family: 'Open Sans Light';
-`;
+import { FilterItemsList } from './styled';
+
 const Filter = () => {
   return (
     <FilterItemsList>

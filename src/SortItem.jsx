@@ -1,20 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { SortItemLeft, SortItemRight } from './styled';
 
-const SortItemLi = styled.li`
-  background-color: ${props => (props.active ? '#2196F3' : 'white')};
-  text-align: center;
-  width: 100%;
-`;
 const SortItem = props => {
-  const { name, isActive } = props;
-  return <SortItemLi active={isActive === 'true'}>{name}</SortItemLi>;
+  const { name, isActive, position } = props;
+  return position === 'left' ? (
+    <SortItemLeft active={isActive === 'true'}>{name}</SortItemLeft>
+  ) : (
+    <SortItemRight active={isActive === 'true'}>{name}</SortItemRight>
+  );
 };
 
 SortItem.propTypes = {
   name: PropTypes.string,
   isActive: PropTypes.string.isRequired,
+  position: PropTypes.string.isRequired,
 };
 
 SortItem.defaultProps = {
