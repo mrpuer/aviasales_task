@@ -27,10 +27,19 @@ export default class TicketsService {
     await this.fetchTickets();
   }
 
-  async getTickets() {
+  async getTickets(stopsFilter) {
     if (this.searchId === '@INIT') {
       await this.initData();
     }
-    return this.allTickets.slice(0, 5);
+    return this.getFilteredTicket(stopsFilter).slice(0, 5);
   }
+
+  getFilteredTicket = filters => {
+    if (filters.length === 0) return this.allTickets;
+    return this.allTickets.filter(ticket => {
+      const ticketStopsTo = ticket.segments[0].stops.length;
+      const ticketStopsFrom = ticket.segments[1].stops.length;
+      return filters.contains(ticketStopsTo) && filters.contains(ticketStopsFrom);
+    });
+  };
 }

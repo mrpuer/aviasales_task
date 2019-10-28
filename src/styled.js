@@ -44,6 +44,7 @@ export const Header = styled.header`
 export const MainContentWrapper = styled.section`
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   text-transform: uppercase;
   ul {
     list-style: none;
@@ -102,6 +103,7 @@ export const FilterItemLi = styled.li`
     }
 
     label {
+      cursor: pointer;
       margin-left: 20px;
       position: relative;
       display: inline-block;
@@ -175,18 +177,18 @@ export const SortItemRight = styled(SortItemAll)`
 `;
 
 export const FlightsList = styled.section`
-  margin-top: 20px;
+  margin-bottom: 50px;
 `;
 
 export const FlightLi = styled.li`
   background-color: #ffffff;
   width: 460px;
-  height: 142px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   padding: 20px;
+  margin-top: 20px;
 `;
 
 export const FlyInfoMain = styled.div`
