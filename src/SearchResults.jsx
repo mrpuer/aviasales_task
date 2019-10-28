@@ -5,10 +5,10 @@ import Flights from './Flights';
 
 import { SearchResultsWrapper } from './styled';
 
-const SearchResults = ({ tickets }) => {
+const SearchResults = ({ tickets, onChangeSorting }) => {
   return (
     <SearchResultsWrapper>
-      <Sort />
+      <Sort onChangeSorting={onChangeSorting} />
       <Flights tickets={tickets} />
     </SearchResultsWrapper>
   );
@@ -16,6 +16,7 @@ const SearchResults = ({ tickets }) => {
 
 SearchResults.propTypes = {
   tickets: PropTypes.instanceOf(Array),
+  onChangeSorting: PropTypes.func.isRequired,
 };
 
 SearchResults.defaultProps = {

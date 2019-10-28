@@ -1,7 +1,15 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 const SEARCH_URL = 'https://front-test.beta.aviasales.ru/search';
 const TICKETS_URL = 'https://front-test.beta.aviasales.ru/tickets';
+
+const filterToStopsMap = {
+  0: 'none',
+  1: 'one',
+  2: 'two',
+  3: 'three',
+};
 
 export default class TicketsService {
   constructor() {
@@ -27,19 +35,25 @@ export default class TicketsService {
     await this.fetchTickets();
   }
 
-  async getTickets(stopsFilter) {
+  async getTickets(stopsFilter, sortBy) {
     if (this.searchId === '@INIT') {
       await this.initData();
     }
-    return this.getFilteredTicket(stopsFilter).slice(0, 5);
+    const filtered = this.getFilteredTickets(this.allTickets, stopsFilter);
+    const sorted = this.getSortedTickets(filtered, sortBy);
+    return sorted.slice(0, 5);
   }
 
-  getFilteredTicket = filters => {
-    if (filters.length === 0) return this.allTickets;
-    return this.allTickets.filter(ticket => {
+  getFilteredTickets = (coll, filters) => {
+    if (filters.all) return coll;
+    return coll.filter(ticket => {
       const ticketStopsTo = ticket.segments[0].stops.length;
       const ticketStopsFrom = ticket.segments[1].stops.length;
-      return filters.contains(ticketStopsTo) && filters.contains(ticketStopsFrom);
+      return filters[filterToStopsMap[ticketStopsTo]] && filters[filterToStopsMap[ticketStopsFrom]];
     });
+  };
+
+  getSortedTickets = (coll, orderBy) => {
+    return _.sortBy(coll, orderBy);
   };
 }

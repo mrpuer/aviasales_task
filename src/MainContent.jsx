@@ -12,12 +12,13 @@ export default class MainContent extends React.Component {
     this.state = {
       tickets: [],
       stopsFilter: {
-        0: false,
-        1: false,
-        2: false,
-        3: false,
+        all: true,
+        none: false,
+        one: false,
+        two: false,
+        three: false,
       },
-      sortBy: 'price',
+      sortBy: item => item.price,
     };
   }
 
@@ -30,16 +31,41 @@ export default class MainContent extends React.Component {
     Tickets.getTickets(stopsFilter, sortBy).then(data => this.setState({ tickets: data }));
   };
 
-  // onChangeStopsFilter = stopsCount => () => {
-  //   this.setState(state => { stopsFilter: { [stopsCount]: !state.stopsFilter[stopsCount], ...state.stopsFilter } })
-  // };
+  onChangeStopsFilter = stopsCount => () => {
+    this.setState(state => {
+      if (stopsCount === 'all') {
+        return {
+          stopsFilter: {
+            all: true,
+            none: false,
+            one: false,
+            two: false,
+            three: false,
+          },
+        };
+      }
+      return {
+        stopsFilter: {
+          ...state.stopsFilter,
+          [stopsCount]: !state.stopsFilter[stopsCount],
+          all: false,
+        },
+      };
+    });
+    this.getTickets();
+  };
+
+  onChangeSorting = sortBy => () => {
+    this.setState({ sortBy });
+    this.getTickets();
+  };
 
   render() {
-    const { tickets } = this.state;
+    const { tickets, stopsFilter } = this.state;
     return (
       <MainContentWrapper>
-        <Sidebar />
-        <SearchResults tickets={tickets} />
+        <Sidebar onChangeStopsFilter={this.onChangeStopsFilter} stopsFilter={stopsFilter} />
+        <SearchResults tickets={tickets} onChangeSorting={this.onChangeSorting} />
       </MainContentWrapper>
     );
   }
