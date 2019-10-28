@@ -6,7 +6,7 @@ import { FlightLi, FlyInfoMain, FlyPrice, CompanyLogo } from './styled';
 const Flights = ({ ticket }) => {
   const { price, carrier, segments } = ticket;
   const carrierLogo = `http://pics.avs.io/99/36/${carrier}.png`;
-  const formattedPrice = `${Math.floor(price / 1000)} ${price % 1000} р`;
+  const formattedPrice = `${new Intl.NumberFormat('ru-RU').format(price)} р`;
   return (
     <FlightLi>
       <FlyInfoMain>

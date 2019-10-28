@@ -3,29 +3,45 @@ import PropTypes from 'prop-types';
 import SortItem from './SortItem';
 import { SortWrapper } from './styled';
 
-const Sort = ({ onChangeSorting }) => {
-  const cheapSorting = evn => {
-    evn.preventDefault();
-    console.log('sort!');
+class Sort extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeButton: 'cheap',
+    };
+  }
 
-    onChangeSorting(item => item.price);
+  cheapSorting = () => {
+    this.setState({ activeButton: 'cheap' });
   };
 
-  const fastSorting = evn => {
-    evn.preventDefault();
-
-    onChangeSorting(item => item.segments[0].duration + item.segments[1].duration);
+  fastSorting = () => {
+    this.setState({ activeButton: 'fast' });
   };
 
-  return (
-    <SortWrapper>
-      <ul>
-        <SortItem name="Самый дешевый" isActive="true" position="left" onClick={cheapSorting} />
-        <SortItem name="Самый быстрый" isActive="false" position="right" onClick={fastSorting} />
-      </ul>
-    </SortWrapper>
-  );
-};
+  render() {
+    const { activeButton } = this.state;
+    const { onChangeSorting } = this.props;
+    return (
+      <SortWrapper>
+        <SortItem
+          title="Самый дешевый"
+          isActive={activeButton === 'cheap'}
+          position="left"
+          clickSortHandle={onChangeSorting('price')}
+          clickActiveHandle={this.cheapSorting}
+        />
+        <SortItem
+          title="Самый быстрый"
+          isActive={activeButton === 'fast'}
+          position="right"
+          clickSortHandle={onChangeSorting('duration')}
+          clickActiveHandle={this.fastSorting}
+        />
+      </SortWrapper>
+    );
+  }
+}
 
 Sort.propTypes = {
   onChangeSorting: PropTypes.func.isRequired,

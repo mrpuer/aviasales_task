@@ -54,6 +54,8 @@ export default class TicketsService {
   };
 
   getSortedTickets = (coll, orderBy) => {
+    if (orderBy === 'duration')
+      return _.sortBy(coll, ticket => ticket.segments[0].duration + ticket.segments[1].duration);
     return _.sortBy(coll, orderBy);
   };
 }

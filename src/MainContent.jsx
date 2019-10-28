@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import Sidebar from './Sidebar';
 import SearchResults from './SearchResults';
 import { MainContentWrapper } from './styled';
@@ -18,7 +19,8 @@ export default class MainContent extends React.Component {
         two: false,
         three: false,
       },
-      sortBy: item => item.price,
+      sortBy: 'price',
+      error: null,
     };
   }
 
@@ -27,8 +29,11 @@ export default class MainContent extends React.Component {
   }
 
   getTickets = () => {
+    this.setState({ error: null });
     const { stopsFilter, sortBy } = this.state;
-    Tickets.getTickets(stopsFilter, sortBy).then(data => this.setState({ tickets: data }));
+    Tickets.getTickets(stopsFilter, sortBy)
+      .then(data => this.setState({ tickets: data }))
+      .catch(err => this.setState({ error: err.message }));
   };
 
   onChangeStopsFilter = stopsCount => () => {
@@ -36,11 +41,8 @@ export default class MainContent extends React.Component {
       if (stopsCount === 'all') {
         return {
           stopsFilter: {
+            ..._.mapValues(state.stopsFilter, () => false),
             all: true,
-            none: false,
-            one: false,
-            two: false,
-            three: false,
           },
         };
       }
@@ -51,21 +53,19 @@ export default class MainContent extends React.Component {
           all: false,
         },
       };
-    });
-    this.getTickets();
+    }, this.getTickets);
   };
 
   onChangeSorting = sortBy => () => {
-    this.setState({ sortBy });
-    this.getTickets();
+    this.setState({ sortBy }, this.getTickets);
   };
 
   render() {
-    const { tickets, stopsFilter } = this.state;
+    const { tickets, stopsFilter, error } = this.state;
     return (
       <MainContentWrapper>
         <Sidebar onChangeStopsFilter={this.onChangeStopsFilter} stopsFilter={stopsFilter} />
-        <SearchResults tickets={tickets} onChangeSorting={this.onChangeSorting} />
+        <SearchResults tickets={tickets} onChangeSorting={this.onChangeSorting} error={error} />
       </MainContentWrapper>
     );
   }

@@ -148,32 +148,18 @@ export const SortWrapper = styled.section`
   border-radius: 5px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  height: 48px;
-  ul {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
+  display: flex;
 `;
 
-export const SortItemAll = styled.li`
+export const SortButton = styled.button`
   background-color: ${props => (props.active ? '#2196F3' : 'white')};
   border: ${props => (props.active ? '1px solid #2196F3' : '1px solid #DFE5EC')};
   color: ${props => (props.active ? '#FFFFFF' : 'inherit')};
   width: 100%;
-  height: 100%;
+  height: 48px;
   line-height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const SortItemLeft = styled(SortItemAll)`
-  border-radius: 5px 0 0 5px;
-`;
-
-export const SortItemRight = styled(SortItemAll)`
-  border-radius: 0 5px 5px 0;
+  border-radius: ${props => (props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0')};
+  text-transform: uppercase;
 `;
 
 export const FlightsList = styled.section`
@@ -228,5 +214,12 @@ export const FlyInfoElement = styled.div`
 export const FlyInfoContent = styled.div`
   font-size: 14px;
   line-height: 21px;
+  text-transform: none;
+`;
+
+export const ErrorDiv = styled.div`
+  color: tomato;
+  text-align: center;
+  margin-top: 50px;
   text-transform: none;
 `;

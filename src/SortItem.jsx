@@ -1,24 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SortItemLeft, SortItemRight } from './styled';
+import { SortButton } from './styled';
 
 const SortItem = props => {
-  const { name, isActive, position } = props;
-  return position === 'left' ? (
-    <SortItemLeft active={isActive === 'true'}>{name}</SortItemLeft>
-  ) : (
-    <SortItemRight active={isActive === 'true'}>{name}</SortItemRight>
+  const clickHandler = () => {
+    const { clickSortHandle, clickActiveHandle } = props;
+    clickSortHandle();
+    clickActiveHandle();
+  };
+
+  const { title, isActive, position } = props;
+  return (
+    <SortButton type="button" position={position} active={isActive} onClick={clickHandler}>
+      {title}
+    </SortButton>
   );
 };
 
 SortItem.propTypes = {
-  name: PropTypes.string,
-  isActive: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  isActive: PropTypes.bool.isRequired,
   position: PropTypes.string.isRequired,
+  clickSortHandle: PropTypes.func.isRequired,
+  clickActiveHandle: PropTypes.func.isRequired,
 };
 
 SortItem.defaultProps = {
-  name: 'Filter name',
+  title: 'Filter name',
 };
 
 export default SortItem;

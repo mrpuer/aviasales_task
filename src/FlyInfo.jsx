@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { format, addMinutes } from 'date-fns';
 import { FlyInfoDiv, FlyInfoElement, FlyInfoTitle, FlyInfoContent } from './styled';
 
 const getStopsTitle = count => {
@@ -8,21 +9,10 @@ const getStopsTitle = count => {
 };
 
 const getFlyDates = (date, duration) => {
-  const depDateObject = new Date(date);
-  const arriveDateObject = new Date(Date.parse(date) + duration * 60000);
-  const depDateHours = depDateObject.getHours();
-  const depDateMinutes = depDateObject.getMinutes();
-  const depHoursFormatted = depDateHours > 9 ? depDateHours : `0${depDateHours}`;
-  const depMinutesFormatted = depDateMinutes > 9 ? depDateMinutes : `0${depDateMinutes}`;
-
-  const arriveDateHours = arriveDateObject.getHours();
-  const arriveDateMinutes = arriveDateObject.getMinutes();
-  const arriveHoursFormatted = arriveDateHours > 9 ? arriveDateHours : `0${arriveDateHours}`;
-  const arriveMinutesFormatted =
-    arriveDateMinutes > 9 ? arriveDateMinutes : `0${arriveDateMinutes}`;
-  const depDateFormatted = `${depHoursFormatted}:${depMinutesFormatted}`;
-  const arriveDateFormatted = `${arriveHoursFormatted}:${arriveMinutesFormatted}`;
-  return { dep: depDateFormatted, arrive: arriveDateFormatted };
+  const depDate = new Date(date);
+  const depTime = format(depDate, 'HH:mm');
+  const arriveTime = format(addMinutes(depDate, duration), 'HH:mm');
+  return { dep: depTime, arrive: arriveTime };
 };
 
 const FlyInfo = ({ info }) => {
