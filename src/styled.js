@@ -23,6 +23,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   body {
+    min-width: 800px;
     background-color: #f3f7fa;
     font-family: 'Open Sans Regular';
     font-size: 12px;

@@ -1,9 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 import Sidebar from './Sidebar';
-import SearchResults from './SearchResults';
-import { MainContentWrapper } from './styled';
+import { MainContentWrapper, SearchResultsWrapper } from './styled';
 import TicketsService from './TicketsService';
+import Sort from './Sort';
+import Error from './Error';
+import Flights from './Flights';
 
 const Tickets = new TicketsService();
 
@@ -33,7 +35,10 @@ export default class MainContent extends React.Component {
     const { stopsFilter, sortBy } = this.state;
     Tickets.getTickets(stopsFilter, sortBy)
       .then(data => this.setState({ tickets: data }))
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => {
+        this.setState({ error: err.message });
+        this.getTickets();
+      });
   };
 
   onChangeStopsFilter = stopsCount => () => {
@@ -61,11 +66,18 @@ export default class MainContent extends React.Component {
   };
 
   render() {
-    const { tickets, stopsFilter, error } = this.state;
+    const { tickets, stopsFilter, error, sortBy } = this.state;
     return (
       <MainContentWrapper>
         <Sidebar onChangeStopsFilter={this.onChangeStopsFilter} stopsFilter={stopsFilter} />
-        <SearchResults tickets={tickets} onChangeSorting={this.onChangeSorting} error={error} />
+        <SearchResultsWrapper>
+          <Sort onChangeSorting={this.onChangeSorting} sortBy={sortBy} />
+          {error ? (
+            <Error title="Sorry, network error. Wait..." message={error} />
+          ) : (
+            <Flights tickets={tickets} />
+          )}
+        </SearchResultsWrapper>
       </MainContentWrapper>
     );
   }
