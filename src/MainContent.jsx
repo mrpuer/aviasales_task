@@ -23,6 +23,7 @@ export default class MainContent extends React.Component {
       },
       sortBy: 'price',
       error: null,
+      timeoutId: 0,
     };
   }
 
@@ -31,16 +32,21 @@ export default class MainContent extends React.Component {
   }
 
   getTickets = () => {
+    const { timeoutId } = this.state;
+    clearTimeout(timeoutId);
     this.setState({ error: null });
     const { stopsFilter, sortBy } = this.state;
     Tickets.getTickets(stopsFilter, sortBy)
       .then(({ tickets, finish }) => {
         this.setState({ tickets });
         if (!finish) {
-          setTimeout(this.getTickets, 5000);
+          this.setState({ timeoutId: setTimeout(this.getTickets, 5000) });
         }
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => {
+        this.setState({ error: err.message });
+        this.getTickets();
+      });
   };
 
   onChangeStopsFilter = stopsCount => () => {
