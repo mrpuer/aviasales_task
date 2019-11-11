@@ -27,21 +27,18 @@ export default class TicketsService {
       params: { searchId: this.searchId },
     });
     const { data } = resp;
-    this.allTickets = [...data.tickets];
-  }
-
-  async initData() {
-    await this.getSearchId();
-    await this.fetchTickets();
+    this.allTickets = this.allTickets.concat(data.tickets);
+    return data.stop;
   }
 
   async getTickets(stopsFilter, sortBy) {
     if (this.searchId === '@INIT') {
-      await this.initData();
+      await this.getSearchId();
     }
+    const isHaveMoreTickets = await this.fetchTickets();
     const filtered = this.getFilteredTickets(this.allTickets, stopsFilter);
     const sorted = this.getSortedTickets(filtered, sortBy);
-    return sorted.slice(0, 5);
+    return { tickets: sorted.slice(0, 5), finish: isHaveMoreTickets };
   }
 
   getFilteredTickets = (coll, filters) => {

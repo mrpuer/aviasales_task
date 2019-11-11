@@ -32,7 +32,12 @@ export default class MainContent extends React.Component {
     this.setState({ error: null });
     const { stopsFilter, sortBy } = this.state;
     Tickets.getTickets(stopsFilter, sortBy)
-      .then(data => this.setState({ tickets: data }))
+      .then(({ tickets, finish }) => {
+        this.setState({ tickets });
+        if (!finish) {
+          setTimeout(this.getTickets, 5000);
+        }
+      })
       .catch(err => this.setState({ error: err.message }));
   };
 
