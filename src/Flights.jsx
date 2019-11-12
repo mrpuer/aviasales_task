@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Flight from './Flight';
 import { FlightsList } from './styled';
 
@@ -8,8 +7,9 @@ const Flights = ({ tickets }) => {
   return (
     <FlightsList>
       <ul>
-        {tickets.map(ticket => (
-          <Flight key={_.uniqueId()} ticket={ticket} />
+        {tickets.map((ticket, id) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Flight key={id} ticket={ticket} />
         ))}
       </ul>
     </FlightsList>
