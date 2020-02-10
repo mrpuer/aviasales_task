@@ -23,29 +23,33 @@ export default class MainContent extends React.Component {
       },
       sortBy: 'price',
       error: null,
-      timeoutId: 0,
+      intervalId: 0,
     };
   }
 
   componentDidMount() {
     this.getTickets();
+    const intervalId = setInterval(this.getTickets, 5000);
+    this.setState({ intervalId });
+  }
+
+  componentWillUnmount() {
+    const { intervalId } = this.state;
+    clearInterval(intervalId);
   }
 
   getTickets = () => {
-    const { timeoutId } = this.state;
-    clearTimeout(timeoutId);
     this.setState({ error: null });
-    const { stopsFilter, sortBy } = this.state;
+    const { stopsFilter, sortBy, intervalId } = this.state;
     Tickets.getTickets(stopsFilter, sortBy)
       .then(({ tickets, finish }) => {
         this.setState({ tickets });
-        if (!finish) {
-          this.setState({ timeoutId: setTimeout(this.getTickets, 5000) });
+        if (finish) {
+          clearInterval(intervalId);
         }
       })
       .catch(err => {
         this.setState({ error: err.message });
-        this.getTickets();
       });
   };
 
