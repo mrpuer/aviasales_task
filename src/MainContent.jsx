@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import _ from 'lodash';
 import Sidebar from './Sidebar';
 import { MainContentWrapper, SearchResultsWrapper } from './styled';
@@ -6,91 +6,78 @@ import TicketsService from './TicketsService';
 import Sort from './Sort';
 import Error from './Error';
 import Flights from './Flights';
+import useInterval from './customHooks/useInterval';
 
 const Tickets = new TicketsService();
 
-export default class MainContent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tickets: [],
-      stopsFilter: {
-        all: true,
-        none: false,
-        one: false,
-        two: false,
-        three: false,
-      },
-      sortBy: 'price',
-      error: null,
-      intervalId: 0,
-    };
-  }
+const MainContent = () => {
+  const [tickets, updateTickets] = useState(null);
+  const [error, setError] = useState(null);
+  const [sortBy, updateSorting] = useState('price');
+  const [stops, setStopsFilter] = useState({
+    all: true,
+    none: false,
+    one: false,
+    two: false,
+    three: false,
+  });
 
-  componentDidMount() {
-    this.getTickets();
-    const intervalId = setInterval(this.getTickets, 5000);
-    this.setState({ intervalId });
-  }
+  let intervalId = 0;
 
-  componentWillUnmount() {
-    const { intervalId } = this.state;
-    clearInterval(intervalId);
-  }
-
-  getTickets = () => {
-    this.setState({ error: null });
-    const { stopsFilter, sortBy, intervalId } = this.state;
-    Tickets.getTickets(stopsFilter, sortBy)
-      .then(({ tickets, finish }) => {
-        this.setState({ tickets });
+  const getTickets = useCallback(() => {
+    setError(null);
+    Tickets.getTickets(stops, sortBy)
+      .then(({ newTickets, finish }) => {
+        updateTickets(newTickets);
         if (finish) {
-          clearInterval(intervalId);
+          clearTimeout(intervalId);
         }
       })
       .catch(err => {
-        this.setState({ error: err.message });
+        setError(err.message);
       });
+  }, [stops, sortBy, intervalId]);
+
+  const intervalRef = useInterval(getTickets, 5000);
+
+  intervalId = intervalRef.current;
+
+  useEffect(() => {
+    getTickets();
+  }, [getTickets]);
+
+  const onChangeStopsFilter = stopsCount => () => {
+    if (stopsCount === 'all') {
+      setStopsFilter({
+        ..._.mapValues(stops, () => false),
+        all: true,
+      });
+    } else {
+      setStopsFilter({
+        ...stops,
+        [stopsCount]: !stops[stopsCount],
+        all: false,
+      });
+    }
   };
 
-  onChangeStopsFilter = stopsCount => () => {
-    this.setState(state => {
-      if (stopsCount === 'all') {
-        return {
-          stopsFilter: {
-            ..._.mapValues(state.stopsFilter, () => false),
-            all: true,
-          },
-        };
-      }
-      return {
-        stopsFilter: {
-          ...state.stopsFilter,
-          [stopsCount]: !state.stopsFilter[stopsCount],
-          all: false,
-        },
-      };
-    }, this.getTickets);
+  const onChangeSorting = sortDirection => () => {
+    updateSorting(sortDirection);
   };
 
-  onChangeSorting = sortBy => () => {
-    this.setState({ sortBy }, this.getTickets);
-  };
+  return (
+    <MainContentWrapper>
+      <Sidebar onChangeStopsFilter={onChangeStopsFilter} stopsFilter={stops} />
+      <SearchResultsWrapper>
+        <Sort onChangeSorting={onChangeSorting} sortBy={sortBy} />
+        {error ? (
+          <Error title="Sorry, network error. Wait..." message={error} />
+        ) : (
+          <Flights tickets={tickets} />
+        )}
+      </SearchResultsWrapper>
+    </MainContentWrapper>
+  );
+};
 
-  render() {
-    const { tickets, stopsFilter, error, sortBy } = this.state;
-    return (
-      <MainContentWrapper>
-        <Sidebar onChangeStopsFilter={this.onChangeStopsFilter} stopsFilter={stopsFilter} />
-        <SearchResultsWrapper>
-          <Sort onChangeSorting={this.onChangeSorting} sortBy={sortBy} />
-          {error ? (
-            <Error title="Sorry, network error. Wait..." message={error} />
-          ) : (
-            <Flights tickets={tickets} />
-          )}
-        </SearchResultsWrapper>
-      </MainContentWrapper>
-    );
-  }
-}
+export default MainContent;

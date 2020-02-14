@@ -15,6 +15,7 @@ export default class TicketsService {
   constructor() {
     this.searchId = '@INIT';
     this.allTickets = [];
+    this.stop = false;
   }
 
   async getSearchId() {
@@ -28,17 +29,19 @@ export default class TicketsService {
     });
     const { data } = resp;
     this.allTickets = this.allTickets.concat(data.tickets);
-    return data.stop;
+    this.stop = data.stop;
   }
 
   async getTickets(stopsFilter, sortBy) {
-    if (this.searchId === '@INIT') {
-      await this.getSearchId();
+    if (!this.stop) {
+      if (this.searchId === '@INIT') {
+        await this.getSearchId();
+      }
+      await this.fetchTickets();
     }
-    const isHaveMoreTickets = await this.fetchTickets();
     const filtered = this.getFilteredTickets(this.allTickets, stopsFilter);
     const sorted = this.getSortedTickets(filtered, sortBy);
-    return { tickets: sorted.slice(0, 5), finish: isHaveMoreTickets };
+    return { newTickets: sorted.slice(0, 5), finish: this.stop };
   }
 
   getFilteredTickets = (coll, filters) => {

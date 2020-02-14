@@ -7,10 +7,11 @@ const Flights = ({ tickets }) => {
   return (
     <FlightsList>
       <ul>
-        {tickets.map((ticket, id) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Flight key={id} ticket={ticket} />
-        ))}
+        {tickets &&
+          tickets.map((ticket, id) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Flight key={id} ticket={ticket} />
+          ))}
       </ul>
     </FlightsList>
   );
@@ -21,7 +22,7 @@ Flights.propTypes = {
 };
 
 Flights.defaultProps = {
-  tickets: [],
+  tickets: null,
 };
 
 export default Flights;
