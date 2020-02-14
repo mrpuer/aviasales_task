@@ -11,10 +11,10 @@
 ## Tools
 
 - create-react-app
+- React Hooks
 - Eslint + Prettier + Husky
 - PropTypes
 - axios
 - date-fns
-- prop-types
 - styled-components
 - styled-normalize
