@@ -3,7 +3,7 @@ import MainContent from './MainContent';
 import logo from './img/logo.svg';
 import { GlobalStyle, Header } from './styled';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />

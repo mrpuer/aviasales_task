@@ -8,6 +8,8 @@
 
 [Demo build](https://xn----7sbbd7ascckmbipthig7ovb.xn--p1ai/jm_aviasales/)
 
+[Typescript Branch](https://github.com/mrpuer/jm_aviasales/tree/typescript/)
+
 ## Tools
 
 - create-react-app
@@ -18,3 +20,4 @@
 - date-fns
 - styled-components
 - styled-normalize
+- TypeScript

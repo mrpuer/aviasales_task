@@ -4,6 +4,10 @@
   "private": true,
   "homepage": "https://mrpuer.github.io/jm_aviasales",
   "dependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.7.1",
+    "@types/styled-components": "^4.4.3",
     "axios": "^0.19.0",
     "date-fns": "^2.6.0",
     "gh-pages": "^2.1.1",
@@ -17,12 +21,12 @@
     "styled-normalize": "^8.0.6"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start index.tsx",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint --ext js,jsx src",
-    "lint:fix": "./node_modules/.bin/eslint --ext js,jsx src --fix",
+    "lint": "./node_modules/.bin/eslint --ext js,jsx,tsx src",
+    "lint:fix": "./node_modules/.bin/tsc --noEmit && ./node_modules/.bin/eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -42,6 +46,10 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "babel-eslint": "^10.0.3",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.1.0",
@@ -53,7 +61,10 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.0.9",
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5"
   },
   "husky": {
     "hooks": {

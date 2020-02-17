@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FlyInfo from './FlyInfo';
 import { FlightLi, FlyInfoMain, FlyPrice, CompanyLogo } from './styled';
+import { Ticket } from './interfaces';
 
-const Flights = ({ ticket }) => {
+const Flights: React.FC<{ ticket: Ticket }> = ({ ticket }) => {
   const { price, carrier, segments } = ticket;
   const carrierLogo = `http://pics.avs.io/99/36/${carrier}.png`;
   const formattedPrice = `${new Intl.NumberFormat('ru-RU').format(price)} р`;
@@ -19,22 +19,6 @@ const Flights = ({ ticket }) => {
       <FlyInfo info={segments[1]} />
     </FlightLi>
   );
-};
-
-Flights.propTypes = {
-  ticket: PropTypes.shape({
-    price: PropTypes.number,
-    carrier: PropTypes.string,
-    segments: PropTypes.instanceOf(Array),
-  }),
-};
-
-Flights.defaultProps = {
-  ticket: {
-    price: 0,
-    carrier: '',
-    segments: [],
-  },
 };
 
 export default Flights;

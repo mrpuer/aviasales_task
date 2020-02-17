@@ -1,21 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { format, addMinutes } from 'date-fns';
 import { FlyInfoDiv, FlyInfoElement, FlyInfoTitle, FlyInfoContent } from './styled';
+import { Segment } from './interfaces';
 
-const getStopsTitle = count => {
-  const stopsTitle = count > 1 ? `${count} пересадки` : `1 пересадка`;
+const getStopsTitle = (count: number): string => {
+  const stopsTitle: string = count > 1 ? `${count} пересадки` : `1 пересадка`;
   return count > 0 ? stopsTitle : 'Без пересадок';
 };
 
-const getFlyDates = (date, duration) => {
+const getFlyDates = (date: string, duration: number): { dep: string; arrive: string } => {
   const depDate = new Date(date);
   const depTime = format(depDate, 'HH:mm');
   const arriveTime = format(addMinutes(depDate, duration), 'HH:mm');
   return { dep: depTime, arrive: arriveTime };
 };
 
-const FlyInfo = ({ info }) => {
+const FlyInfo: React.FC<{ info: Segment }> = ({ info }) => {
   const { origin, destination, date, stops, duration } = info;
   const formattedDuration = `${Math.floor(duration / 60)}ч ${duration % 60}м`;
   const flightTime = getFlyDates(date, duration);
@@ -35,26 +35,6 @@ const FlyInfo = ({ info }) => {
       </FlyInfoElement>
     </FlyInfoDiv>
   );
-};
-
-FlyInfo.propTypes = {
-  info: PropTypes.shape({
-    origin: PropTypes.string,
-    destination: PropTypes.string,
-    date: PropTypes.string,
-    stops: PropTypes.instanceOf(Array),
-    duration: PropTypes.number,
-  }),
-};
-
-FlyInfo.defaultProps = {
-  info: {
-    origin: '',
-    destination: '',
-    date: '',
-    stops: [],
-    duration: 0,
-  },
 };
 
 export default FlyInfo;

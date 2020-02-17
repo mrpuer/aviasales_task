@@ -1,9 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { FilterItemLi } from './styled';
 
-const FilterItem = props => {
+interface FilterItemProps {
+  name: string;
+  id: string;
+  onChangeStopsFilter(id: string): (e: React.SyntheticEvent) => void;
+  isChecked: boolean;
+}
+
+const FilterItem: React.FC<FilterItemProps> = props => {
   const { name, id, onChangeStopsFilter, isChecked } = props;
   return (
     <FilterItemLi>
@@ -19,18 +25,6 @@ const FilterItem = props => {
       </div>
     </FilterItemLi>
   );
-};
-
-FilterItem.propTypes = {
-  name: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  onChangeStopsFilter: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool,
-};
-
-FilterItem.defaultProps = {
-  name: 'Filter name',
-  isChecked: props => props.id === 'all',
 };
 
 export default FilterItem;

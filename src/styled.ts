@@ -152,14 +152,20 @@ export const SortWrapper = styled.section`
   display: flex;
 `;
 
-export const SortButton = styled.button`
-  background-color: ${props => (props.active ? '#2196F3' : 'white')};
-  border: ${props => (props.active ? '1px solid #2196F3' : '1px solid #DFE5EC')};
-  color: ${props => (props.active ? '#FFFFFF' : 'inherit')};
+interface SortButtonProps {
+  readonly active: boolean;
+  readonly position: string;
+  onClick?: any;
+}
+
+export const SortButton = styled.button<SortButtonProps>`
+  background-color: ${(props): string => (props.active ? '#2196F3' : 'white')};
+  border: ${(props): string => (props.active ? '1px solid #2196F3' : '1px solid #DFE5EC')};
+  color: ${(props): string => (props.active ? '#FFFFFF' : 'inherit')};
   width: 100%;
   height: 48px;
   line-height: 20px;
-  border-radius: ${props => (props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0')};
+  border-radius: ${(props): string => (props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0')};
   text-transform: uppercase;
 `;
 

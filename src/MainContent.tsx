@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import _ from 'lodash';
+import { mapValues } from 'lodash';
 import Sidebar from './Sidebar';
 import { MainContentWrapper, SearchResultsWrapper } from './styled';
 import TicketsService from './TicketsService';
@@ -7,14 +7,15 @@ import Sort from './Sort';
 import Error from './Error';
 import Flights from './Flights';
 import useInterval from './customHooks/useInterval';
+import { Stops, Ticket } from './interfaces';
 
-const Tickets = new TicketsService();
+const Tickets: TicketsService = new TicketsService();
 
-const MainContent = () => {
-  const [tickets, updateTickets] = useState(null);
-  const [error, setError] = useState(null);
-  const [sortBy, updateSorting] = useState('price');
-  const [stops, setStopsFilter] = useState({
+const MainContent: React.FC = () => {
+  const [tickets, updateTickets] = useState<Ticket[]>([]);
+  const [error, setError] = useState<string>('');
+  const [sortBy, updateSorting] = useState<string>('price');
+  const [stops, setStopsFilter] = useState<Stops>({
     all: true,
     none: false,
     one: false,
@@ -22,15 +23,15 @@ const MainContent = () => {
     three: false,
   });
 
-  let intervalId = 0;
+  let intervalId: number | null = null;
 
   const getTickets = useCallback(() => {
-    setError(null);
+    setError('');
     Tickets.getTickets(stops, sortBy)
       .then(({ newTickets, finish }) => {
         updateTickets(newTickets);
         if (finish) {
-          clearTimeout(intervalId);
+          clearTimeout(intervalId ? intervalId : undefined);
         }
       })
       .catch(err => {
@@ -38,18 +39,16 @@ const MainContent = () => {
       });
   }, [stops, sortBy, intervalId]);
 
-  const intervalRef = useInterval(getTickets, 5000);
-
-  intervalId = intervalRef.current;
+  intervalId = useInterval(getTickets, 5000).current;
 
   useEffect(() => {
     getTickets();
   }, [getTickets]);
 
-  const onChangeStopsFilter = stopsCount => () => {
+  const onChangeStopsFilter = (stopsCount: string) => (): void => {
     if (stopsCount === 'all') {
       setStopsFilter({
-        ..._.mapValues(stops, () => false),
+        ...mapValues(stops, () => false),
         all: true,
       });
     } else {
@@ -61,7 +60,7 @@ const MainContent = () => {
     }
   };
 
-  const onChangeSorting = sortDirection => () => {
+  const onChangeSorting = (sortDirection: string) => (): void => {
     updateSorting(sortDirection);
   };
 
@@ -70,10 +69,10 @@ const MainContent = () => {
       <Sidebar onChangeStopsFilter={onChangeStopsFilter} stopsFilter={stops} />
       <SearchResultsWrapper>
         <Sort onChangeSorting={onChangeSorting} sortBy={sortBy} />
-        {error ? (
-          <Error title="Sorry, network error. Wait..." message={error} />
-        ) : (
+        {error.length === 0 ? (
           <Flights tickets={tickets} />
+        ) : (
+          <Error title="Sorry, network error. Wait..." message={error} />
         )}
       </SearchResultsWrapper>
     </MainContentWrapper>
