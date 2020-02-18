@@ -6,9 +6,9 @@
 
 ## Solution
 
-[Demo build](https://xn----7sbbd7ascckmbipthig7ovb.xn--p1ai/jm_aviasales/)
+[Demo build](https://xn----7sbbd7ascckmbipthig7ovb.xn--p1ai/aviasales_task/)
 
-[Typescript Branch](https://github.com/mrpuer/jm_aviasales/tree/typescript/)
+[Typescript Branch](https://github.com/mrpuer/aviasales_task/tree/typescript/)
 
 ## Tools
 
