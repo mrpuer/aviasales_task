@@ -2,7 +2,7 @@
   "name": "aviasales",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mrpuer.github.io/jm_aviasales",
+  "homepage": "https://mrpuer.github.io/aviasales_task",
   "dependencies": {
     "axios": "^0.19.0",
     "date-fns": "^2.6.0",
