@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.js": "/jm_aviasales/static/js/main.c952d566.chunk.js",
-    "main.js.map": "/jm_aviasales/static/js/main.c952d566.chunk.js.map",
-    "runtime-main.js": "/jm_aviasales/static/js/runtime-main.7f794d36.js",
-    "runtime-main.js.map": "/jm_aviasales/static/js/runtime-main.7f794d36.js.map",
-    "static/js/2.33bd8d39.chunk.js": "/jm_aviasales/static/js/2.33bd8d39.chunk.js",
-    "static/js/2.33bd8d39.chunk.js.map": "/jm_aviasales/static/js/2.33bd8d39.chunk.js.map",
-    "index.html": "/jm_aviasales/index.html",
-    "precache-manifest.96dbe73d51639d91de29388f5a1ae1d5.js": "/jm_aviasales/precache-manifest.96dbe73d51639d91de29388f5a1ae1d5.js",
-    "service-worker.js": "/jm_aviasales/service-worker.js",
-    "static/media/OpenSans-Light.ttf": "/jm_aviasales/static/media/OpenSans-Light.2d0bdc8d.ttf",
-    "static/media/OpenSans-Regular.ttf": "/jm_aviasales/static/media/OpenSans-Regular.3ed9575d.ttf",
-    "static/media/OpenSans-SemiBold.ttf": "/jm_aviasales/static/media/OpenSans-SemiBold.ba5cde21.ttf",
-    "static/media/logo.svg": "/jm_aviasales/static/media/logo.0c089234.svg"
+    "main.js": "/aviasales_task/static/js/main.d85d3ca3.chunk.js",
+    "main.js.map": "/aviasales_task/static/js/main.d85d3ca3.chunk.js.map",
+    "runtime-main.js": "/aviasales_task/static/js/runtime-main.8b410c78.js",
+    "runtime-main.js.map": "/aviasales_task/static/js/runtime-main.8b410c78.js.map",
+    "static/js/2.16a6ec6c.chunk.js": "/aviasales_task/static/js/2.16a6ec6c.chunk.js",
+    "static/js/2.16a6ec6c.chunk.js.map": "/aviasales_task/static/js/2.16a6ec6c.chunk.js.map",
+    "index.html": "/aviasales_task/index.html",
+    "precache-manifest.f08cdce69f7f71ed40f5e71bf1666c9b.js": "/aviasales_task/precache-manifest.f08cdce69f7f71ed40f5e71bf1666c9b.js",
+    "service-worker.js": "/aviasales_task/service-worker.js",
+    "static/media/OpenSans-Light.ttf": "/aviasales_task/static/media/OpenSans-Light.2d0bdc8d.ttf",
+    "static/media/OpenSans-Regular.ttf": "/aviasales_task/static/media/OpenSans-Regular.3ed9575d.ttf",
+    "static/media/OpenSans-SemiBold.ttf": "/aviasales_task/static/media/OpenSans-SemiBold.ba5cde21.ttf",
+    "static/media/logo.svg": "/aviasales_task/static/media/logo.0c089234.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.7f794d36.js",
-    "static/js/2.33bd8d39.chunk.js",
-    "static/js/main.c952d566.chunk.js"
+    "static/js/runtime-main.8b410c78.js",
+    "static/js/2.16a6ec6c.chunk.js",
+    "static/js/main.d85d3ca3.chunk.js"
   ]
 }
